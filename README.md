@@ -1,4 +1,4 @@
-![adapt-logo](https://user-images.githubusercontent.com/35819157/41377213-60ca05de-6f29-11e8-8c05-e29720906c90.png)
+![adapt-logo](https://user-images.githubusercontent.com/35819157/45054351-ab29f900-b05a-11e8-9db5-0cced6428ff2.png)
 
 
 # Summary
