@@ -1,0 +1,21 @@
+DVWA info: http://www.dvwa.co.uk/
+
+Prerequisites: docker is installed, and the docker daemon is started
+
+The script performs several steps
+1) pulls a docker image consisting of a LAMP server running DVWA (if not installed)
+2) runs the image.
+3) Runs the python script (this does a couple of things)
+	initializes database (necessary to get to login screen)
+	performs a login, and prints out the session cookies needed to connect to this session
+
+The default username is 'admin'
+the default password is 'password'
+
+After logging in, there should be 2 cookies printed out
+PHPSESSID and security
+PHPSESSID should be copied directly to any login agents
+security will have one of 4 values 'low', 'medium', 'high', and 'impossible' (default is probably impossible)
+Setting the cookie value affects the security of the php code on DVWA
+
+These cookies should be copied to the config file

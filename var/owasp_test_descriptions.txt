@@ -1,0 +1,44 @@
+INFO-002, Fingerprint Web Server:
+	Identifies the server that is running the web application 
+
+CONFIG-002, Test Application Platform Configuration:
+	Detects configuration errors with regards to application architechture. 
+
+IDENT-004, Account Enumeration and Guessable User Account:
+	Tries a brute force method to search for user accounts on web application. 
+
+AUTHN-002, Default Credentials:
+	Similar to IDENT-004 but with an emphasis on default configurations for servers. 
+
+AUTHN-001, Credentials Transported over an Encrypted Channel:
+	Tests to make sure that credentials are encrypted by the service. 
+
+AUTHN-003, Weak lock out mechanism:
+	Testing the application lock out specification after numerous incorrect logins. 
+
+AUTHZ-001, Directory Traversal/file include:
+	Atempts to discover hidden paths that should be restricted from normal users. 
+
+SESS-001, Session Management Schema:
+	Tests focused on determining the application's usage of cookies and sessions. 
+
+SESS-002, Cookie Attributes:
+	Tests focused on examining the cookies the applicaion produces. 
+
+INPVAL-001, Reflected Cross site scripting:
+	Tests make sure input is validated when the application recieves requests. 
+
+INPVAL-002, Stored Cross site scripting:
+	Tests to make sure stored input is validated when the application gets user data. 
+
+ERR-001, Error Code:
+	Tests to make sure only relevant information is conveyed when an error occurs in the app.
+
+ERR-002, Stack Traces:
+	Tests to make sure only relevant information is returned when given malformed http requests. 
+
+CRYPST-001, Weak SSL/TSL Ciphers, Insufficient Transport Layer Protection
+	Tests to determine if sensitive information is secured properly.
+
+CRYPST-002, Padding Oracle
+	Tests to determine if decrypted user data causes revealing data leaks. 

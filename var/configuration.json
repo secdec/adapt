@@ -1,0 +1,103 @@
+{
+    "adapt_general": {
+        "analysis_confidence_sensitivity": "paranoid",
+        "analysis_detail": "full",
+        "analysis_risk_sensitivity": "paranoid",
+        "append": true,
+        "auth_module": "login_format.py",
+        "auth_text": null,
+        "context_name": "http://localhost:8080/spring-mvc-showcase",
+        "cwe_file": "/var/cwe_list.csv",
+        "default_password_file": "/var/SecLists/Passwords/Common-Credentials/10-million-password-list-top-100.txt",
+        "default_username_file": "/var/SecLists/Usernames/top-usernames-shortlist.txt",
+        "log_gui": false,
+        "nmap_crawl_size": "50",
+        "nmap_script_ports": "80",
+        "output_file": null,
+        "output_format": "json",
+        "owasp_top10_file": "/var/owasp2017.json",
+        "password": "test",
+        "resizable_window": true,
+        "skip_authentication": false,
+        "target_name": "http://localhost:8080/spring-mvc-showcase",
+        "testssl_loc": "/lib/testssl.sh/testssl.sh",
+        "username": "drktobin",
+        "verbose": true
+    },
+    "owasp_general": {
+        "tests_that_require_login": [
+            "authn_001",
+            "authn_002",
+            "authn_003",
+            "authz_001",
+            "sess_001",
+            "sess_002",
+            "at_002"
+        ],
+        "tests_to_run": {
+            "at_002": false,
+            "authn_001": true,
+            "authn_002": true,
+            "authn_003": true,
+            "authz_001": true,
+            "config_002": true,
+            "config_006": true,
+            "crypst_001": true,
+            "crypst_002": true,
+            "err_001": true,
+            "err_002": true,
+            "ident_004": true,
+            "info_002": true,
+            "inpval_001": true,
+            "inpval_002": true,
+            "inpval_003": true,
+            "sess_001": true,
+            "sess_002": true
+        }
+    },
+    "ssh_config": {
+        "hostname": "localhost",
+        "keywords": [
+            "WARNING",
+            "warning",
+            "ERROR",
+            "error"
+        ],
+        "log_paths": [
+            "./Desktop/Test.log"
+        ],
+        "password": "toor",
+        "port": "22",
+        "read_amount": "1000",
+        "read_direction": "full",
+        "turned_on": false,
+        "username": "drew"
+    },
+    "zap_general": {
+        "api_key": null,
+        "ascan_turned_on": true,
+        "close_on_finish": true,
+        "excluded": [
+            "/logout.php",
+            "/logout"
+        ],
+        "hidden": true,
+        "host": "http://localhost",
+        "opts": [
+            "-dir",
+            "/home/drew/Desktop/adapt/adapt/zap",
+            "-config",
+            "dirs=/home/drew/Desktop/adapt/adapt/zap/scripts",
+            "-config",
+            "start.checkForUpdates=false",
+            "-config",
+            "start.checkForAddonUpdates=false",
+            "-config",
+            "newsessionprompt=false"
+        ],
+        "path": "/opt/ZAP_2.7.0/zap.sh",
+        "port": "34485",
+        "pscan_turned_on": true,
+        "spider_turned_on": true
+    }
+}
