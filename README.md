@@ -1,4 +1,4 @@
-![adapt-logo](resources/adapt-logo.png?raw=true "Adapt-logo")
+![adapt-logo](resources/adapt-logo-expanded.png?raw=true "Adapt-logo")
 
 # Summary
 ADAPT is a tool that performs Automated Penetration Testing for WebApps. It is designed to increase accuracy, speed, and confidence in penetration testing efforts. ADAPT automatically tests for multiple industry standard OWASP Top 10 vulnerabilities, and outputs categorized findings based on these potential vulnerabilities. ADAPT also uses the functionality from OWASP ZAP to perform automated active and passive scans, and auto-spidering. Due to the flexible nature of the ADAPT tool, all of theses features and tests can be enabled or disabled from the configuration file. For more information on tests and configuration, please visit the ADAPT [wiki:](https://github.com/secdec/ADAPT/wiki)
