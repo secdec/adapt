@@ -28,9 +28,9 @@ if(sys.version_info[0] < 3):
 	print("Please run ADAPT in python 3")
 	sys.exit()
 
-if(os.path.isfile("./var/adapt_installed") == False or 
-	os.path.isdir("./lib/testssl.sh") == False or
-	os.path.isdir("./var/SecLists") == False):
+if(not os.path.isfile("./var/adapt_installed") or 
+	not os.path.isdir("./lib/testssl.sh") or
+	not os.path.isdir("./var/SecLists")):
 	import subprocess
 	print("It seems that you have not run the installer script.")
 	print("We will now run that briefly before continuing.")
@@ -50,7 +50,7 @@ from adapt_analysis import adapt_analysis
 from aprint import aprint
 import getpass
 
-if(os.path.isfile("./var/adapt_installed") == False or os.path.isdir("./lib/testssl.sh") == False):
+if(not os.path.isfile("./var/adapt_installed") or not os.path.isdir("./lib/testssl.sh")):
 	print("It seems like you have not run the installer script")
 
 # This parses the main configuration file and returns its 
@@ -71,7 +71,7 @@ class PenTester():
 		return self.start_penetration_testing()
 	def start_penetration_testing(self):
 		printer.aprint(self.args["adapt_general"]["target_name"])
-		if(self.args["adapt_general"]["target_name"] == None):
+		if(self.args["adapt_general"]["target_name"] is None):
 			# This basically means everything failed
 			return {}
 
@@ -80,7 +80,7 @@ class PenTester():
 		printer.aprint("Zap initialized")
 		
 		printer.aprint("Checking for authorization availability...")
-		if(zapper.auth_success == True):
+		if(zapper.auth_success):
 			printer.aprint("Authorization is available!")
 		else:
 			self.args["adapt_general"]["skip_authentication"] = True
@@ -198,7 +198,7 @@ def ssh_capture_dmesg_logs(args):
 			exception_reason = e
 		connection_attempts += 1
 
-	if(connection_success == False):
+	if(not connection_success):
 		raise Exception("Cannot connect to ssh server: "+str(exception_reason))
 
 	printer.aprint("Getting files...")
@@ -245,7 +245,7 @@ def main():
 	command_line_args = get_args()
 	if(command_line_args.target != None):
 		args["adapt_general"]["target_name"] = command_line_args.target
-	if(command_line_args.verbose == True):
+	if(command_line_args.verbose):
 		args["adapt_general"]["verbose"] = True
 	if(command_line_args.output != None):
 		args["adapt_general"]["output_file"] = command_line_args.output
@@ -279,17 +279,17 @@ def main():
 
 	printer.aprint("Final config setup...")
 
-	if(args["zap_general"]["hidden"] == True):
+	if(args["zap_general"]["hidden"]):
 		args["zap_general"]["opts"].append("-daemon")
 
-	if(args["adapt_general"]["skip_authentication"] == False):
+	if(not args["adapt_general"]["skip_authentication"]):
 		if(args["adapt_general"]["username"] == "//stdin"):
 			args["adapt_general"]["username"] = getpass.getpass("Valid service username:")
 
 		if(args["adapt_general"]["password"] == "//stdin"):
 			args["adapt_general"]["password"] = getpass.getpass("Valid service password:")
 
-	if(args["ssh_config"]["turned_on"] == True):
+	if(args["ssh_config"]["turned_on"]):
 		if(args["ssh_config"]["username"] == "//stdin"):
 			args["ssh_config"]["username"] = getpass.getpass("SSH username:")
 
@@ -303,7 +303,7 @@ def main():
 	pentester.run()
 	printer.aprint("Test bed finished")
 	if( pentester.successful ):
-		if(args["ssh_config"]["turned_on"] == True):
+		if(args["ssh_config"]["turned_on"]):
 			ssh_capture_dmesg_logs(args)
 	
 		analysis = adapt_analysis( pentester.zap_results, pentester.owasp_results,args=args)

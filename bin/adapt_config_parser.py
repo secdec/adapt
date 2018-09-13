@@ -159,7 +159,7 @@ def get_config_defaults(contents):
 	contents["adapt_general"]["verbose"] = onf(dbg_op["adapt_verbose"])
 	contents["zap_general"]["close_on_finish"] = onf(dbg_op["zap_close"])
 	contents["zap_general"]["hidden"] = onf(dbg_op["zap_hidden"])
-	if(contents["zap_general"]["hidden"] == True):
+	if(contents["zap_general"]["hidden"]):
 		contents["zap_general"]["close_on_finish"] = True
 
 	auth_module = ath_op["auth_module"]
@@ -175,7 +175,7 @@ def get_config_defaults(contents):
 		contents["adapt_general"]["skip_authentication"] = True
 		contents["adapt_general"]["auth_module"] = None
 
-	if(contents["adapt_general"]["skip_authentication"] == True):
+	if(contents["adapt_general"]["skip_authentication"]):
 		for i in contents["owasp_general"]["tests_that_require_login"]:
 			contents["owasp_general"]["tests_to_run"][i] = False
 

@@ -126,7 +126,7 @@ class owasp_suite():
 		test_methods = ["sess_001", "sess_002", "authz_001", "authn_001", "authn_002", "config_002", "crypst_001", "crypst_002", "err_001", "err_002", "info_002", "inpval_001", "inpval_002", "inpval_003", "ident_004", "authn_003",  "config_006"]
 
 		for i in test_methods:
-			if(self.args["owasp_general"]["tests_to_run"][i] == False):
+			if(not self.args["owasp_general"]["tests_to_run"][i]):
 				continue
 			self.printer.aprint("Invoking test: {}...".format(i))
 			internal = getattr(self, i)
@@ -136,7 +136,7 @@ class owasp_suite():
 			#	self.printer.aprint("Runtime error with test "+i+": "+str(e), 2)
 			#	ret.append(create_report(i, "ERROR: "+str(e)))
 			#	continue
-			if(int_res == None):
+			if(int_res is None):
 				self.printer.aprint("Test {} may not be implemented".format(i))
 			elif(type(int_res) == list):
 				ret += int_res
@@ -220,7 +220,7 @@ class owasp_suite():
 		report_list = []
 		for msg in self.zap.spider_messages():
 			req = HTTPRequest.read_from_zap_message( msg )
-			if (self.zapReqHeader == None):
+			if (self.zapReqHeader is None):
 				if (msg['requestHeader'] != None):
 					self.zapReqHeader = msg['requestHeader']
 					self.zapReqBody = msg['requestBody']
@@ -255,7 +255,7 @@ class owasp_suite():
 			ignore_nmap = True
 			
 		# nmap_results = "Found the following error pages: https://help.disqus.com/customer/portal/articles/466253-what-html-tags-are-allowed-within-comments-"
-		if "Found the following error pages" in nmap_results and ignore_nmap == False:
+		if "Found the following error pages" in nmap_results and not ignore_nmap :
 			urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', nmap_results)
 			comments = self.find_comments_in_html_by_urls(urls)
 			if comments:
@@ -268,7 +268,7 @@ class owasp_suite():
 
 	def ident_004(self):
 		reports = []
-		if(self.args["adapt_general"]["skip_authentication"] == True):
+		if(self.args["adapt_general"]["skip_authentication"]):
 			return []
 		#bad_pass = "thisIsNotARealPasswordButShouldBeAUniqueString"
 		#bad_uname = "thisIsNotARealUsernameButAUniqueString"
@@ -384,7 +384,7 @@ class owasp_suite():
 		f.close()
 		for u,p in itertools.product( usernames, passwords ):
 			login_msg = self.zap.test_login(u, p)
-			if(login_msg["successful"] == True):
+			if(login_msg["successful"]):
 				self.printer.aprint( "Default login {}/{} successful".format( u,p ) )
 				reports.append( create_report( "authn_002", basic_description="Default Credentials: {}/{}".format( u,p ), severity="high", cwe=521, owasp_association="6", confidence=1.0, misc=[]) )
 
@@ -405,7 +405,7 @@ class owasp_suite():
 		for i in range( 0, reps ):
 			self.printer.aprint( "Lockout login {}/{}".format( i+1, reps ) )
 			msg = self.zap.test_login(correct_username, incorrect_password)
-			assert(msg["successful"] == False) # raise exception, error?
+			assert(not msg["successful"]) # raise exception, error?
 		end = default_timer()
 		self.printer.aprint( "{} reps took {} seconds".format( reps, end-start ) )
 		# 10 attempts/sec is our threshold
@@ -417,7 +417,7 @@ class owasp_suite():
 				confidence=1.0) )
 
 		valid = self.zap.test_login(correct_username, correct_password)
-		if(valid["successful"] == True):
+		if(valid["successful"]):
 			reports.append( create_report(
 				"authn_003",
 				basic_description="No account lockout after {} wrong requsts".format( reps ),
@@ -467,13 +467,13 @@ class owasp_suite():
 
 	def config_006(self):
 
-		if(self.args["zap_general"]["spider_turned_on"] == False):
+		if(not self.args["zap_general"]["spider_turned_on"]):
 			raise Exception("Cannot run config_006 without zap spidering")
 
 		report_list = []
 
 		http_methods = []
-		if(self.nmap_failed == False):
+		if(not self.nmap_failed):
 			for i in self.nmap_results:
 				if(type(i) == dict):
 					if("http-methods" in i.keys()):
@@ -483,12 +483,12 @@ class owasp_suite():
 		found_propfind = False
 
 		for i in http_methods:
-			if(found_trace == False and "TRACE" in i) :
+			if(not found_trace and "TRACE" in i) :
 				found_trace = True
 				report_list.append(
 					create_report("config_006", "TRACE exists as a valid request verb, making service potentially vulnerable to XST attacks.", severity="medium", confidence=1.0, cwe=693)
 				)
-			elif(found_propfind == False and "PROPFIND" in i):
+			elif(not found_propfind and "PROPFIND" in i):
 				found_propfind = True
 				report_list.append(
 					create_report("config_006", "PROPFIND exists as a valid request verb, making service potentially vulnerable.", severity="medium",confidence=1.0, cwe=693)
@@ -508,7 +508,7 @@ class owasp_suite():
 				if(temp_url.endswith(j)):
 					ignore = True
 
-			if(ignore == True):
+			if(ignore):
 				continue
 			new_req = "HEAD {} HTTP/1.0\r\n\r\n".format(temp_url)
 			resp = self.zap.send_request(new_req)
@@ -522,7 +522,7 @@ class owasp_suite():
 			elif(status_number == 500):
 				report_list.append(create_report("config_006", "Internal server error caused.",confidence=1.0, severity="medium", request=new_req, misc=[resp]))
 			elif(status_number > 501):
-				report_list.append(create_report("config_006", "Internal server error caused.", confidence=1.0, severity="medium", request=new_req, misc=[reso]))
+				report_list.append(create_report("config_006", "Internal server error caused.", confidence=1.0, severity="medium", request=new_req, misc=[resp]))
 
 		return report_list
 		

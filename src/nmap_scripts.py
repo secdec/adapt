@@ -61,7 +61,7 @@ class nmap_scripting():
 		self.target = translate_url(target)
 		self.nm = nmap.PortScanner()
 		self.__valid_scripts = []
-		if(scripts_to_run == None):
+		if(scripts_to_run is None):
 			# for current project goals only one script is run
 			# The idea beaing that any future development or tests can 
 			# just call an nmap script and use its information 

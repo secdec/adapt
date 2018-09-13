@@ -37,7 +37,7 @@ class aprint():
 		return self.home_file+self.__gc(c)+msg
 
 	def aprint(self, msg, c=0):
-		if(self.verbose == False):
+		if(not self.verbose):
 			return
 		if(self.gui != None):
 			try:
