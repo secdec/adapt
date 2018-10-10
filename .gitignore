@@ -8,3 +8,6 @@ zap/
 SecLists/
 paramiko/
 testssl.sh
+tmp/
+var/adapt_installed
+.idea/

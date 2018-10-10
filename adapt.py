@@ -133,17 +133,28 @@ class PenTester():
 		printer.aprint("Done running suite")
 		printer.aprint("Done scanning")
 		self.successful = True
-			
+
+def bool_argparse(v):
+	if v is None:
+		return None
+	if str(v).lower() in ('yes', 'true', 't', 'y', '1'):
+		return True
+	elif str(v).lower() in ('no', 'false', 'f', 'n', '0'):
+		return False
+	else:
+		raise argparse.ArgumentTypeError('Boolean value expected')
 
 def get_args():
 	parser = argparse.ArgumentParser()
-	parser.add_argument("--target", type=str, help="Attack target specification")
+	parser.add_argument("--target", type=str, help="Attack target specification", default=os.environ.get('ADAPT_TARGET'))
+	parser.add_argument("--context", type=str, help="Attack context specification", default=os.environ.get('ADAPT_CONTEXT'))
 	parser.add_argument("--verbose", type=bool, nargs='?', help="Turns on verbose")
-	parser.add_argument("--output", type=str, help="Output file specification")
-	parser.add_argument("--append", type=str, help="Append data to output file.")
-	parser.add_argument("--risk", type=str, help="Risk value specification: [low, medium, high, paranoid]")
-	parser.add_argument("--conf", type=str, help="Confidence value specification: [low, medium, high, paranoid]")
-	parser.add_argument("--detail", type=str, help="Specification for analysis detail: [low, medium, high, full]")
+	parser.add_argument("--output", type=str, help="Output file specification", default=os.environ.get('ADAPT_OUTPUT'))
+	parser.add_argument("--append", type=str, help="Append data to output file.", default=os.environ.get('ADAPT_APPEND'))
+	parser.add_argument("--risk", type=str, help="Risk value specification: [low, medium, high, paranoid]", default=os.environ.get('ADAPT_RISK'))
+	parser.add_argument("--conf", type=str, help="Confidence value specification: [low, medium, high, paranoid]", default=os.environ.get('ADAPT_CONF'))
+	parser.add_argument("--detail", type=str, help="Specification for analysis detail: [low, medium, high, full]", default=os.environ.get('ADAPT_DETAIL'))
+	parser.add_argument("--skip_authentication", type=bool_argparse, default=bool_argparse(os.environ.get('ADAPT_SKIP_AUTHENTICATION')), help="True to skip authentication or False to perform authentication")
 
 	args = parser.parse_args()
 	return args
@@ -241,7 +252,7 @@ def main():
 	supported_risk_conf_values = ["low", "medium", "high", "paranoid"]
 	supported_analysis_detail = ["low", "medium", "high", "full", "owasp10"]
 
-	printer.aprint("Checking command line args")
+	printer.aprint("Checking command line args and environment variables")
 	command_line_args = get_args()
 	if(command_line_args.target != None):
 		args["adapt_general"]["target_name"] = command_line_args.target
@@ -273,6 +284,12 @@ def main():
 		if(command_line_args.detail not in supported_analysis_detail):
 			__unsupported_value("analysis detail", command_line_args.detail, supported_analysis_detail)
 		args["adapt_general"]["analysis_detail"] = command_line_args.detail
+
+	if command_line_args.context is not None:
+		args["adapt_general"]["context_name"] = command_line_args.context
+
+	if command_line_args.skip_authentication is not None:
+		args["adapt_general"]["skip_authentication"] = command_line_args.skip_authentication
 
 	if(len(sys.argv) > 1):
 		sys.argv = [sys.argv[0]]
