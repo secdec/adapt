@@ -55,12 +55,12 @@ fi
 
 if [ "$(uname)" == "Darwin" ]; then
 echo "Installing for MacOSX"
-	pip3 install --user python-owasp-zap-v2.4
-	pip3 install --user beautifulsoup4
-	pip3 install --user lxml
-	pip3 install --user dicttoxml
-	pip3 install --user scipy
-	pip3 install --user paramiko
+	pip3 install python-owasp-zap-v2.4
+	pip3 install beautifulsoup4
+	pip3 install lxml
+	pip3 install dicttoxml
+	pip3 install scipy
+	pip3 install paramiko
 	python3 setup.py install
 elif [ "$(uname -s)" == "Linux" ]; then
 	sudo --validate # update sudo permissions, so we don't have to enter a passwd for the rest of the script
@@ -169,18 +169,18 @@ elif [ "$(uname -s)" == "Linux" ]; then
 		mkdir output
 	fi
 
-	do_command sudo pip3 install --user python-nmap
-	do_command sudo pip3 install --user python-owasp-zap-v2.4
-	do_command sudo pip3 install --user beautifulsoup4
-	do_command sudo pip3 install --user lxml
-	do_command sudo pip3 install --user dicttoxml
-	do_command sudo pip3 install --user progressbar2
-	do_command sudo pip3 install --user pathlib
-	do_command sudo pip3 install --user bcrypt
-	do_command sudo pip3 install --user pynacl
+	do_command sudo pip3 install python-nmap
+	do_command sudo pip3 install python-owasp-zap-v2.4
+	do_command sudo pip3 install beautifulsoup4
+	do_command sudo pip3 install lxml
+	do_command sudo pip3 install dicttoxml
+	do_command sudo pip3 install progressbar2
+	do_command sudo pip3 install pathlib
+	do_command sudo pip3 install bcrypt
+	do_command sudo pip3 install pynacl
 
 	# Now to write out a temp file which will indicate that we ran the install script 
-	touch ./var/adapt_installed
+	sudo touch ./var/adapt_installed
 
 	echo "ADAPT install: FINISHED"
 else
