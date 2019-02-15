@@ -48,8 +48,8 @@ if [ "$1" == "clean" ]; then
 	rm -rf SecLists
 	cd "$launch_dir"
 	cd "$launch_dir"/tools
-	rm -rf "$launch_dir"/paramiko
-	rm -rf "$launch_dir"/testssl.sh
+	rm -rf "$launch_dir"/lib/paramiko
+	rm -rf "$launch_dir"/lib/testssl.sh
 	cd "$launch_dir"
 	
 	exit 0
@@ -124,7 +124,7 @@ elif [ "$(uname -s)" == "Linux" ]; then
 		echo "NOT FOUND"
 		echo -n "Installing paramiko dev: "
 		sudo git clone https://github.com/paramiko/paramiko &> /dev/null
-		cd "$launch_dir"/paramiko
+		cd "$launch_dir"/lib/paramiko
 		ERROR=$(sudo python3 setup.py install)
 		if [ $? -ne 0 ]
 		then
