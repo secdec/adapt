@@ -25,6 +25,8 @@ echo "This script should no longer be run as root"
 exit 1
 fi
 
+launch_dir=$(pwd)
+
 function do_command {
 	echo -n "$@: "
 	$@ &>/dev/null
@@ -39,16 +41,16 @@ function do_command {
 
 if [ "$1" == "clean" ]; then
 	echo "Cleaning..."
-	cd output
+	cd "$launch_dir"/output
 	rm *
-	cd ..
-	cd static_data
+	cd "$launch_dir"
+	cd "$launch_dir"/static_data
 	rm -rf SecLists
-	cd ..
-	cd tools
-	rm -rf paramiko
-	rm -rf testssl.sh
-	cd ..
+	cd "$launch_dir"
+	cd "$launch_dir"/tools
+	rm -rf "$launch_dir"/paramiko
+	rm -rf "$launch_dir"/testssl.sh
+	cd "$launch_dir"
 	
 	exit 0
 fi
@@ -100,7 +102,7 @@ elif [ "$(uname -s)" == "Linux" ]; then
 	then
 		echo "NOT FOUND"
 		echo -n "Installing wig: "
-		git clone https://github.com/jekyc/wig &> /dev/null
+		sudo git clone https://github.com/jekyc/wig &> /dev/null
 		cd wig
 		ERROR=$(sudo python3 setup.py install)
 		if [ $? -ne 0 ]
@@ -109,20 +111,20 @@ elif [ "$(uname -s)" == "Linux" ]; then
 			echo ${ERROR}
 		fi
 			echo "DONE"
-			cd -
 			sudo rm -rf wig*
 		else
 			echo "FOUND"
 		fi
+		cd -
 
 	echo -n "Checking paramiko: "
-	cd lib
+	cd "$launch_dir"/lib
 	if [ ! -d ./paramiko ]
 	then
 		echo "NOT FOUND"
 		echo -n "Installing paramiko dev: "
-		git clone https://github.com/paramiko/paramiko &> /dev/null
-		cd paramiko
+		sudo git clone https://github.com/paramiko/paramiko &> /dev/null
+		cd "$launch_dir"/paramiko
 		ERROR=$(sudo python3 setup.py install)
 		if [ $? -ne 0 ]
 		then
@@ -130,43 +132,42 @@ elif [ "$(uname -s)" == "Linux" ]; then
 			echo ${ERROR}
 		fi
 			echo "DONE"
-			cd -
 	else
 		echo "FOUND"
 	fi
-	cd ..
+	cd "$launch_dir"
 
 	echo -n "Checking testssl: "
-	cd lib
+	cd "$launch_dir"/lib
 	if [ ! -d ./testssl.sh ] 
 	then
 		echo "NOT FOUND"
-		echo -n "Installing testssl dev: "
-		git clone https://github.com/drwetter/testssl.sh &> /dev/null
+		echo "Installing testssl dev: "
+		sudo git clone https://github.com/drwetter/testssl.sh &> /dev/null
 		echo "DONE"
 	else
 		echo "FOUND"
 	fi
-	cd ..
+	cd "$launch_dir"
 
 	echo -n "Checking for SecLists: "
-	cd var
+	cd "$launch_dir"/var
 	if [ ! -d ./SecLists ] 
 	then
 		echo "NOT FOUND"
 		echo -n "Installing SecLists: "
-		git clone https://github.com/danielmiessler/SecLists.git
+		sudo git clone https://github.com/danielmiessler/SecLists.git
 		echo "DONE"
 	else
 		echo "FOUND"
 	fi
-	cd ..
+	cd "$launch_dir"
 	
 
 # Make output directory if it does not exist
 	if [ ! -d output ]
 	then
-		mkdir output
+		sudo mkdir output
 	fi
 
 	do_command sudo pip3 install python-nmap
