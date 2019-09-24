@@ -75,6 +75,7 @@ elif [ "$(uname -s)" == "Linux" ]; then
 	do_command sudo apt-get install nmap -y
 	do_command sudo apt-get install docker.io -y
 	do_command sudo apt-get install git -y
+	do_command sudo apt-get install python-pip python-dev libffi-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev
 	echo -n "Checking for zap: "
 	if [ ! -d /opt/ZAP_2.7.0 ]
 	then
@@ -172,6 +173,7 @@ elif [ "$(uname -s)" == "Linux" ]; then
 
 	do_command sudo pip3 install python-nmap
 	do_command sudo pip3 install python-owasp-zap-v2.4
+	do_command sudo pip3 install paramiko
 	do_command sudo pip3 install beautifulsoup4
 	do_command sudo pip3 install lxml
 	do_command sudo pip3 install dicttoxml
